@@ -22,5 +22,5 @@ export default function runQuery(query : string, callback : mysql.queryCallback)
     connection.query(query, callback);
 
     // End the connection
-    connection.;
+    connection.destroy();
 }
