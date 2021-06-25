@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import DB from '../../utils/db';
-import emailSchema from '../../joiSchema/emailSchema';
+import DB from '../../../utils/db';
+import emailSchema from '../../../joiSchema/emailSchema';
 import { v4 as uuidv4 } from 'uuid';
 
 export default async function subscribe(req : NextApiRequest, res : NextApiResponse) : Promise<void> {

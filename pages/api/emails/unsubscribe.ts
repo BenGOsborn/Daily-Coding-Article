@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import DB from '../../utils/db';
+import DB from '../../../utils/db';
 
 export default async function subscribe(req : NextApiRequest, res : NextApiResponse) {
     if (req.method === 'DELETE') {
