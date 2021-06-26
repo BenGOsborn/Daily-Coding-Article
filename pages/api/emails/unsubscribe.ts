@@ -4,7 +4,7 @@ import DB from '../../../utils/db';
 export default async function subscribe(req : NextApiRequest, res : NextApiResponse) {
     if (req.method === 'DELETE') {
         // Get the email from the request
-        const { userID } : { userID : string } = req.body;
+        const { userID } : { userID? : string } = req.body;
 
         // Check that the email is specified in the request
         if (typeof userID === typeof undefined) {
