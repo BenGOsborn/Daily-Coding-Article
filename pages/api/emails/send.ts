@@ -6,6 +6,7 @@ import { sendMail } from "../../../utils/email";
 
 export default async function auth(req : NextApiRequest, res : NextApiResponse) : Promise<void> {
     if (req.method === 'POST') {
+        // Verify that the details are correct
         protectedMiddleware(req, res, async () => {
             // Get the params from the request
             const { subject, title, body, url, test } : { subject : string, title : string, body : string, url : string, test? : boolean } = req.body;
@@ -17,9 +18,9 @@ export default async function auth(req : NextApiRequest, res : NextApiResponse) 
 
             // Define the data to be emailed
             const text = `${title}\n\n${body}\n\n${url}`;
-            const html = await compileTemplate({ title: "Lol", body: "This is my body", url: "https://www.google.com" });
+            const html = await compileTemplate({ title, body, url });
 
-            // If the message is a test, then send a single email to the the sender
+            // If the message is a test, then send a single email to the the sender and return success
             if (test) {
                 await sendMail([process.env.GMAIL_USER as string], subject, text, html);
 
@@ -27,18 +28,19 @@ export default async function auth(req : NextApiRequest, res : NextApiResponse) 
             }
 
             // Initialize connection to the database
-            // const db = new DB();
+            const db = new DB();
 
             // Get all of the emails
-            // const { rows } = await db.query("SELECT email FROM users");
+            const { rows } = await db.query("SELECT email FROM users");
 
             // Send the emails
-            // await sendMail(rows.map((row : { email : string }) => row.email), subject, text, html);
+            await sendMail(rows.map((row : { email : string }) => row.email), subject, text, html);
 
             // Close the database
-            // await db.close();
+            await db.close();
 
-            return res.status(200).end(html);
+            // Return success
+            return res.status(200).end("Emails sent");
         });
 
     } else {
