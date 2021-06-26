@@ -13,18 +13,18 @@ export default async function send(req : NextApiRequest, res : NextApiResponse) 
         // Verify that the details are correct
         protectedMiddleware(req, res, async () => {
             // Get the params from the request
-            const { subject, title, body, url, test } : SendParams = req.body;
+            const { subject, title, body, articleURL, test } : SendParams = req.body;
 
             // Make sure all of the params are specified
-            if (!(typeof subject !== typeof undefined && typeof title !== typeof undefined && typeof body !== typeof undefined && typeof url !== typeof undefined)) {
+            if (!(subject && title && body && articleURL)) {
                 return res.status(400).end("Missing a parameter");
             }
 
             // Define the data to be emailed
             const unsubscribe = "https://unsubscribe.com";
 
-            const text = `${title}\n\n${body}\n\n${url}\n${unsubscribe}`;
-            const html = await compileTemplate({ title, body, url, unsubscribe });
+            const text = `${title}\n\n${body}\n\n${articleURL}\n${unsubscribe}`;
+            const html = await compileTemplate({ title, body, articleURL, unsubscribe });
 
             // If the message is a test, then send a single email to the the sender and return success
             if (test) {

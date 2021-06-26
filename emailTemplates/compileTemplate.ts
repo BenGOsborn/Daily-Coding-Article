@@ -4,7 +4,7 @@ import ejs from 'ejs';
 export interface TemplateContent {
     title : string,
     body : string,
-    url : string,
+    articleURL : string,
     unsubscribe : string
 }
 
