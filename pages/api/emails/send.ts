@@ -8,7 +8,7 @@ export interface SendParams extends Omit<EmailParams, "addresses" | "text" | "ht
     test? : boolean
 }
 
-export default async function send(req : NextApiRequest, res : NextApiResponse) : Promise<void> {
+export default async function send(req : NextApiRequest, res : NextApiResponse) {
     if (req.method === 'POST') {
         // Verify that the details are correct
         protectedMiddleware(req, res, async () => {

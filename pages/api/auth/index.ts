@@ -8,7 +8,7 @@ export interface LoginParams {
     password : string
 }
 
-export default async function auth(req : NextApiRequest, res : NextApiResponse) : Promise<void> {
+export default async function auth(req : NextApiRequest, res : NextApiResponse) {
     if (req.method === 'POST') {
         // Get the params from the request
         const { username, password } : LoginParams = req.body;

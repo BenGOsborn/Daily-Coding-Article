@@ -10,7 +10,7 @@ export interface UnsubscribeParams {
     email : string
 }
 
-export default async function subscribe(req : NextApiRequest, res : NextApiResponse) : Promise<void> {
+export default async function subscribe(req : NextApiRequest, res : NextApiResponse) {
     if (req.method === 'POST') {
         // Get the email to add from the request
         const { email } : SubscribeParams = req.body;

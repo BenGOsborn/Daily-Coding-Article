@@ -12,12 +12,12 @@ export default class DB {
         // this.pool.query("CREATE TABLE IF NOT EXISTS users ( id serial PRIMARY KEY, email VARCHAR(255) UNIQUE, created TIMESTAMP DEFAULT NOW() )") .then(result => {}) .catch(error => {});
     }
 
-    public async query(query : string, args? : any[]) : Promise<QueryResult> {
+    public async query(query : string, args? : any[]) {
         // Execute the query and get the result
         return await this.pool.query(query, args);
     }
 
-    public async close() : Promise<void> {
+    public async close() {
         // End the pool
         await this.pool.end();
     }
