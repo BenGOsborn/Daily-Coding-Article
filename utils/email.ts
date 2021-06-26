@@ -1,6 +1,13 @@
 import nodemailer from 'nodemailer';
 
-export async function sendMail(addresses : string[], subject? : string, text? : string, html? : string) : Promise<void> {
+export interface EmailParams {
+    addresses : string[],
+    subject : string,
+    text : string,
+    html : string
+}
+
+export async function sendMail(params : EmailParams) : Promise<void> {
     // Initialize the transport
     const transport = nodemailer.createTransport({
         service: "Gmail",
@@ -13,10 +20,10 @@ export async function sendMail(addresses : string[], subject? : string, text? : 
     // Configure the options for the email
     const mailOptions : nodemailer.SendMailOptions = {
         from: process.env.GMAIL_USER,
-        to: addresses.join(','),
-        subject: subject,
-        text: text,
-        html: html
+        to: params.addresses.join(','),
+        subject: params.subject,
+        text: params.text,
+        html: params.html
     }
 
     // Send the email

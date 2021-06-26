@@ -1,11 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { genToken } from '../../../utils/auth';
 import cookie from 'cookie';
+import { TokenParams } from '../../../utils/auth';
+
+export interface LoginParams {
+    username : string,
+    password : string
+}
 
 export default async function auth(req : NextApiRequest, res : NextApiResponse) : Promise<void> {
     if (req.method === 'POST') {
         // Get the params from the request
-        const { username, password } : { username? : string, password? : string } = req.body;
+        const { username, password } : LoginParams = req.body;
 
         // Verify the admin username and password
         if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
@@ -37,7 +43,7 @@ export default async function auth(req : NextApiRequest, res : NextApiResponse) 
 
     } else if (req.method === 'DELETE') {
         // Determine if the cookie exists
-        const { token } : { token? : string } = req.cookies;
+        const { token } : TokenParams = req.cookies;
 
         // Check that the user is logged in with a token
         if (typeof token === typeof undefined) {

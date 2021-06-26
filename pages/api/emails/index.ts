@@ -2,10 +2,18 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import DB from '../../../utils/db';
 import emailSchema from '../../../joiSchema/emailSchema';
 
+export interface SubscribeParams {
+    email : string
+}
+
+export interface UnsubscribeParams {
+    email : string
+}
+
 export default async function subscribe(req : NextApiRequest, res : NextApiResponse) : Promise<void> {
     if (req.method === 'POST') {
         // Get the email to add from the request
-        const { email } : { email? : string } = req.body;
+        const { email } : SubscribeParams = req.body;
 
         // Verify the email with the schema
         const { error } = emailSchema.validate({ email });
@@ -30,11 +38,11 @@ export default async function subscribe(req : NextApiRequest, res : NextApiRespo
 
     } else if (req.method === 'DELETE') {
         // Get the email from the request
-        const { email } : { email? : string } = req.body;
+        const { email } : UnsubscribeParams = req.body;
 
         // Check that the email is specified in the request
         if (typeof email === typeof undefined) {
-            return res.status(400).end("Invalid user ID");
+            return res.status(400).end("Missing parameter");
         }
 
         // Initialize the database connection

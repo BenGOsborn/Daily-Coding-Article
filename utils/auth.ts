@@ -1,6 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import jwt from 'jsonwebtoken';
 
+export interface TokenParams {
+    token? : string
+}
+
 export function verifyToken(token : string) : boolean {
     try {
         // Verify the token - throws an error if it is not
@@ -25,7 +29,7 @@ export function genToken(timeToExpire : number = 60 * 60 * 24) : string {
 
 export async function protectedMiddleware(req : NextApiRequest, res : NextApiResponse, callback : () => void | Promise<void>) {
     // Get the token from the request
-    const { token } : { token? : string } = req.cookies;
+    const { token } : TokenParams = req.cookies;
 
     // Check that the token exists
     if (typeof token === typeof undefined) {
