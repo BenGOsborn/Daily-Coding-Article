@@ -15,7 +15,7 @@ export default async function subscribe(req : NextApiRequest, res : NextApiRespo
         const db = new DB();
 
         // Attempt to delete the item from the database if it exists
-        const deleted = await db.query("DELETE FROM emails WHERE user_id = $1", [userID]);
+        const deleted = await db.query("DELETE FROM users WHERE user_id = $1", [userID]);
         if (deleted.rowCount === 0) {
             return res.status(500).end("Failed to unsubscribe email");
         }

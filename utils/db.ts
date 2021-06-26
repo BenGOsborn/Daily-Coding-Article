@@ -9,7 +9,7 @@ export default class DB {
 
         // Table editing
         // this.pool.query("DROP TABLE IF EXISTS emails").then(result => {}).catch(error => {});
-        // this.pool.query("CREATE TABLE IF NOT EXISTS emails ( id serial PRIMARY KEY, email VARCHAR(255) UNIQUE, user_id VARCHAR(255) UNIQUE, created TIMESTAMP DEFAULT NOW() )") .then(result => {}) .catch(error => {});
+        // this.pool.query("CREATE TABLE IF NOT EXISTS users ( id serial PRIMARY KEY, email VARCHAR(255) UNIQUE, user_id VARCHAR(255) UNIQUE, created TIMESTAMP DEFAULT NOW() )") .then(result => {}) .catch(error => {});
     }
 
     public async query(query : string, args? : any[]) : Promise<QueryResult> {

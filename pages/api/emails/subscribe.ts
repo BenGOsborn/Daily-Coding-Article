@@ -21,7 +21,7 @@ export default async function subscribe(req : NextApiRequest, res : NextApiRespo
         const userID = uuidv4();
 
         // Add the new email if it doesnt exist
-        const inserted = await db.query("INSERT INTO emails (email, user_id) SELECT CAST($1 AS VARCHAR), $2 WHERE NOT EXISTS (SELECT email FROM emails WHERE email = $1)", [email, userID]);
+        const inserted = await db.query("INSERT INTO users (email, user_id) SELECT CAST($1 AS VARCHAR), $2 WHERE NOT EXISTS (SELECT email FROM users WHERE email = $1)", [email, userID]);
         if (inserted.rowCount === 0) {
             return res.status(500).end("Failed to subscribe email");
         }
