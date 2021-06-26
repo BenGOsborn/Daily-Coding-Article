@@ -5,7 +5,7 @@ import emailSchema from '../../../joiSchema/emailSchema';
 export default async function subscribe(req : NextApiRequest, res : NextApiResponse) : Promise<void> {
     if (req.method === 'POST') {
         // Get the email to add from the request
-        const { email } : { email : string } = req.body;
+        const { email } : { email? : string } = req.body;
 
         // Verify the email with the schema
         const { error } = emailSchema.validate({ email });
@@ -30,7 +30,7 @@ export default async function subscribe(req : NextApiRequest, res : NextApiRespo
 
     } else if (req.method === 'DELETE') {
         // Get the email from the request
-        const { email } : { email : string } = req.body;
+        const { email } : { email? : string } = req.body;
 
         // Check that the email is specified in the request
         if (typeof email === typeof undefined) {

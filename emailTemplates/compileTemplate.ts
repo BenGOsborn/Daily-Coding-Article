@@ -4,7 +4,8 @@ import ejs from 'ejs';
 interface TemplateContent {
     title : string,
     body : string,
-    url : string
+    url : string,
+    unsubscribe: string
 }
 
 export default async function compileTemplate(content : TemplateContent, templateFile : string = "emailTemplates/template.ejs") : Promise<string> {
