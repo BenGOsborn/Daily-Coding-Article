@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { genAuthorization } from '../../../utils/auth';
+import { genToken } from '../../../utils/auth';
 import cookie from 'cookie';
 
-export default function auth(req : NextApiRequest, res : NextApiResponse) {
+export default async function auth(req : NextApiRequest, res : NextApiResponse) : Promise<void> {
     if (req.method === 'POST') {
         // Get the params from the request
         const { username, password } : { username? : string, password? : string } = req.body;
@@ -12,10 +12,13 @@ export default function auth(req : NextApiRequest, res : NextApiResponse) {
             // Set the expiry of the token to be 1 day
             const expiry = 60 * 60 * 24;
 
-            // Set the cookie of the user
+            // Generate the token
+            const token = genToken(expiry);
+
+            // Set the cookie that contains the token
             res.setHeader(
                 "Set-Cookie",
-                cookie.serialize("Authorization", genAuthorization(expiry), {
+                cookie.serialize("token", token, {
                     httpOnly: true,
                     secure: process.env.NODE_ENV !== 'development',
                     maxAge: expiry,
@@ -24,8 +27,8 @@ export default function auth(req : NextApiRequest, res : NextApiResponse) {
                 })
             );
 
-            // Set the header
-            return res.status(200).end("Login successful");
+            // Return the token
+            return res.status(200).end(token);
 
         } else {
             // Return an error message
@@ -34,17 +37,17 @@ export default function auth(req : NextApiRequest, res : NextApiResponse) {
 
     } else if (req.method === 'DELETE') {
         // Determine if the cookie exists
-        const { Authorization } : { Authorization? : string } = req.cookies;
+        const { token } : { token? : string } = req.cookies;
 
-        // Check that there is a cookie else return error
-        if (!Authorization) {
+        // Check that the user is logged in with a token
+        if (typeof token === typeof undefined) {
             return res.status(400).end("Not logged in");
         }
 
         // Delete the cookie
         res.setHeader(
             "Set-Cookie",
-            cookie.serialize("Authorization", "", {
+            cookie.serialize("token", "", {
                 httpOnly: true,
                 secure: process.env.NODE_ENV !== 'development',
                 expires: new Date(0),

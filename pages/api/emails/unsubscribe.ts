@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import DB from '../../../utils/db';
 
-export default async function subscribe(req : NextApiRequest, res : NextApiResponse) {
+export default async function subscribe(req : NextApiRequest, res : NextApiResponse) : Promise<void> {
     if (req.method === 'DELETE') {
         // Get the email from the request
         const { userID } : { userID? : string } = req.body;
