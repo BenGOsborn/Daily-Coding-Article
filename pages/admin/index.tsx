@@ -94,8 +94,8 @@ export const getServerSideProps : GetServerSideProps<LoginProps> = async ({ req,
     }
 
     // Redirect and return false
-    res.writeHead(302, { Location: "/admin/login" });
-    res.end();
+    res.statusCode = 302;
+    res.setHeader("Location", "/admin/login");
 
     return { props: { loggedIn: false } }
 }

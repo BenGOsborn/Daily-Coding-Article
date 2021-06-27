@@ -1,0 +1,47 @@
+@import "variables";
+
+.login {
+    margin: 150px 0 0 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    h1 {
+        color: $colorAccentPrimary;
+    }
+
+    form {
+        text-align: left;
+        font-size: $fontDefault;
+        margin: 30px 0px;
+
+        input {
+            border: none;
+            outline: none;
+            border-bottom: 2px solid $colorPrimary;
+            font-size: 18px;
+            transition: all 0.2s ease 0s;
+            &:hover, &:focus {
+                border-bottom: 2px solid $colorSecondary;
+            }
+        }
+
+        label {
+            font-weight: 600;
+            color: $colorAccentSecondary;
+            padding: 15px 0px;
+        }
+
+        input, label {
+            display: block;
+            width: 275px;
+            margin: 15px 0px;
+        }
+    }
+
+    input {
+        font-size: ;
+    }
+}

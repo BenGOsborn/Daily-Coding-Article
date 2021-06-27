@@ -4,7 +4,9 @@ import Footer from "./footer";
 const Layout : FC<{}> = ({ children }) => {
     return (
         <>
-            {children}
+            <main>
+                {children}
+            </main>
             <Footer />
         </>
     );

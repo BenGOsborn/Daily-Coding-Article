@@ -1,0 +1,28 @@
+@import "variables";
+
+.Footer {
+    background-color: $colorAccentPrimary;
+    padding: 20px 0;
+    font-size: 16px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .links {
+        width: 40%;
+        padding: 10px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        a {
+            color: $colorBackground;
+            &:hover {
+                color: $colorHoverBackground
+            }
+        }
+    }
+
+}

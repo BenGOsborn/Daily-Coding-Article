@@ -5,6 +5,7 @@ import { FormEvent, useState } from "react";
 import { StatusMessage } from "..";
 import { TokenParams, verifyToken } from "../../utils/auth";
 import { AuthParams } from "../api/auth";
+import styles from "../../styles/Login.module.scss";
 
 export interface LoginProps {
     loggedIn : boolean
@@ -42,17 +43,21 @@ const Login : NextPage<LoginProps> = ({ loggedIn }) => {
     // Display the page if not logged in otherwise display nothing whilst redirected
     if (!loggedIn) {
         return (
-            <>
-                <h1>Login</h1>
-                <form onSubmit={login}>
-                    <label htmlFor="username">Username</label>
-                    <input type="text" required={true} placeholder="Admin username" id="username" onChange={e => setUsername(e.target.value)} />
-                    <label htmlFor="password">Password</label>
-                    <input type="password" required={true} placeholder="Admin password" id="password" onChange={e => setPassword(e.target.value)} />
-                    <input type="submit" value="Login" />
-                </form>
-                {loginStatus ? loginStatus.success ? <p>{loginStatus.message}</p> : <p>{loginStatus.message}</p> : null}
-            </>
+            <div className="container">
+                <div className={styles.login}>
+                    <h1>Login</h1>
+                    <form onSubmit={login} id="LoginForm" >
+                        <section>
+                            <label htmlFor="username">Username</label>
+                            <input type="text" required={true} placeholder="Admin username" id="username" onChange={e => setUsername(e.target.value)} />
+                            <label htmlFor="password">Password</label>
+                            <input type="password" required={true} placeholder="Admin password" id="password" onChange={e => setPassword(e.target.value)} />
+                        </section>
+                    </form>
+                    <input type="submit" form="LoginForm" value="Login" />
+                    {loginStatus ? loginStatus.success ? <p>{loginStatus.message}</p> : <p>{loginStatus.message}</p> : null}
+                </div>
+            </div>
         );
 
     } else {
@@ -71,8 +76,8 @@ export const getServerSideProps : GetServerSideProps<LoginProps> = async ({ req,
 
         // If the token is valid redirect to the admin page
         if (verified) {
-            res.writeHead(302, { Location: "/admin" });
-            res.end();
+            res.statusCode = 302;
+            res.setHeader("Location", "/admin");
 
             return { props: { loggedIn: true } }
         }

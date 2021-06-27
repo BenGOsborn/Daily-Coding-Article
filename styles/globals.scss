@@ -1,7 +1,20 @@
+@import "variables";
+
 * {
     font-family: urw-form,Helvetica,sans-serif;
     text-decoration: none;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+body {
+    background-color: $colorBackground;
+}
+
+main {
+    min-height: 100vh;
+}
+
+.container {
 }
