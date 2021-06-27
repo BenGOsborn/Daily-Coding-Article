@@ -8,6 +8,10 @@
     justify-content: center;
     flex-direction: column;
 
+    p {
+        font-size: $fontDefault;
+    }
+
     h1 {
         color: $colorAccentPrimary;
         font-size: $fontTitle;
@@ -22,7 +26,6 @@
             border: none;
             outline: none;
             border-bottom: 2px solid $colorPrimary;
-            font-size: $fontDefault;
             transition: all 0.2s ease 0s;
             &:hover, &:focus {
                 border-bottom: 2px solid $colorSecondary;
@@ -36,9 +39,44 @@
         }
 
         input, label {
+            font-size: $fontDefault;
             display: block;
-            width: 300px;
+            width: 400px;
             margin: 15px 0px;
+        }
+    }
+
+    @media (max-width: $screenMedium) {
+        p {
+            font-size: $fontDefault - 2;
+        }
+
+        h1 {
+            font-size: $fontTitle - 5;
+        }
+
+        form {
+            input, label {
+                width: 250px;
+                font-size: $fontDefault - 2;
+            }
+        }
+    }
+
+    @media (max-width: $screenSmall) {
+        p {
+            font-size: $fontDefault - 4;
+        }
+
+        h1 {
+            font-size: $fontTitle - 10;
+        }
+
+        form {
+            input, label {
+                width: 175px;
+                font-size: $fontDefault - 4;
+            }
         }
     }
 }
