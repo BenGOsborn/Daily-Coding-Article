@@ -5,6 +5,7 @@ import compileTemplate, {
 } from "../../../emailTemplates/compileTemplate";
 import DB from "../../../utils/db";
 import { EmailParams, sendMail } from "../../../utils/email";
+import { siteURL } from "../../../next.config";
 
 export interface SendParams
     extends Omit<EmailParams, "addresses" | "text" | "html">,
@@ -26,7 +27,7 @@ export default async function send(req: NextApiRequest, res: NextApiResponse) {
             }
 
             // Define the data to be emailed
-            const unsubscribe = "https://unsubscribe.com";
+            const unsubscribe = `${siteURL}/unsubscribe`;
 
             const text = `${title}\n\n${body}\n\n${articleURL}\n${unsubscribe}`;
             const html = await compileTemplate({
