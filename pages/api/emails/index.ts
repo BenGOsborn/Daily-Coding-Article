@@ -24,8 +24,14 @@ export default async function subscribe(req : NextApiRequest, res : NextApiRespo
         // Initialize the database
         const db = new DB();
 
+        // Check if the email already exists
+        const { rows: existingEmails } = await db.query("SELECT * FROM users WHERE email = $1", [email]);
+        if (existingEmails.length > 0) {
+            return res.status(200).end("Email is already subscribed");
+        }
+
         // Add the new email if it doesnt exist
-        const inserted = await db.query("INSERT INTO users (email) SELECT CAST($1 AS VARCHAR) WHERE NOT EXISTS (SELECT email FROM users WHERE email = $1)", [email]);
+        const inserted = await db.query("INSERT INTO users (email) VALUES ($1)", [email]);
         if (inserted.rowCount === 0) {
             return res.status(500).end("Failed to subscribe email");
         }
@@ -34,7 +40,7 @@ export default async function subscribe(req : NextApiRequest, res : NextApiRespo
         db.close();
 
         // Return success
-        return res.status(200).end("Successfully subscribed email!")
+        return res.status(200).end("Email subscribed")
 
     } else if (req.method === 'DELETE') {
         // Get the email from the request

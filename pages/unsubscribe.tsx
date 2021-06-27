@@ -3,11 +3,14 @@ import { StatusMessage } from ".";
 import axios from "axios";
 import { UnsubscribeParams } from "./api/emails";
 import { NextPage } from "next";
+import { useRouter } from "next/dist/client/router";
 
 const Unsubscribe : NextPage<{}> = () => {
-    const [unsubscribed, setUnsubscribed] = useState<StatusMessage | null>(null);
+    const [unsubscribedStatus, setUnsubscribedStatus] = useState<StatusMessage | null>(null);
     
     const [email, setEmail] = useState<string | null>(null);
+
+    const router = useRouter();
 
     // Unsubscribe the user from the email list
     const unsubscribe = (e : ChangeEvent<HTMLFormElement>) : void => {
@@ -15,7 +18,7 @@ const Unsubscribe : NextPage<{}> = () => {
         e.preventDefault();
 
         // Don't execute if the email is uninitialized
-        if (typeof email === typeof null) {
+        if (!email) {
             console.error("Email does not have a value");
             return;
         }
@@ -25,12 +28,15 @@ const Unsubscribe : NextPage<{}> = () => {
         .then(result => {
             // Set the status
             const unsubscribedStatus : StatusMessage = { success: true, message: result.data }
-            setUnsubscribed(unsubscribedStatus);
+            setUnsubscribedStatus(unsubscribedStatus);
+
+            // Redirect to the home screen
+            router.push("/");
         })
         .catch(error => {
             // Set the status as an error message
             const unsubscribedStatus : StatusMessage = { success: false, message: error.response.data }
-            setUnsubscribed(unsubscribedStatus);
+            setUnsubscribedStatus(unsubscribedStatus);
         });
     }
 
@@ -43,7 +49,7 @@ const Unsubscribe : NextPage<{}> = () => {
                 <input type="email" required={true} placeholder="your@email.com" id="email" onChange={e => setEmail(e.target.value)} />
                 <input type="submit" value="Unsubscribe" />
             </form>
-            {unsubscribed ? unsubscribed.success ? <p>{unsubscribed.message}</p> : <p>{unsubscribed.message}</p> : null}
+            {unsubscribedStatus ? unsubscribedStatus.success ? <p>{unsubscribedStatus.message}</p> : <p>{unsubscribedStatus.message}</p> : null}
         </>
     );
 }

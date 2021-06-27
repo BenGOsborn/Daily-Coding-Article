@@ -9,7 +9,7 @@ export interface StatusMessage {
 }
 
 const Subscribe : NextPage<{}> = () => {
-    const [subscribed, setSubscribed] = useState<StatusMessage | null>(null);
+    const [subscribedStatus, setSubscribedStatus] = useState<StatusMessage | null>(null);
     
     const [email, setEmail] = useState<string | null>(null);
 
@@ -17,7 +17,7 @@ const Subscribe : NextPage<{}> = () => {
         // Attempt to get the subscribed status from the local storage
         const subscribedStatus = localStorage.getItem("subscribed");
         if (subscribedStatus) {
-            setSubscribed(JSON.parse(subscribedStatus) as StatusMessage);
+            setSubscribedStatus(JSON.parse(subscribedStatus) as StatusMessage);
         }
     }, []);
 
@@ -27,7 +27,7 @@ const Subscribe : NextPage<{}> = () => {
         e.preventDefault();
 
         // Don't execute if the email is uninitialized
-        if (typeof email === typeof null) {
+        if (!email) {
             console.error("Email does not have a value");
             return;
         }
@@ -37,22 +37,24 @@ const Subscribe : NextPage<{}> = () => {
         .then(result => {
             // Set the status and store in local storage
             const subscribedStatus : StatusMessage = { success: true, message: result.data }
-            setSubscribed(subscribedStatus);
+            setSubscribedStatus(subscribedStatus);
 
             // Save the status to local storage
             localStorage.setItem("subscribed", JSON.stringify(subscribedStatus));
+
+            // Clear the form
+            e.target.reset();
         })
         .catch(error => {
             // Set the status as an error message
             const subscribedStatus : StatusMessage = { success: false, message: error.response.data }
-            setSubscribed(subscribedStatus);
-
-            // Look at the status from the server and see if one already exists then it should set the local storage and the status and such
+            setSubscribedStatus(subscribedStatus);
         });
     }
 
+    // Check if the email is already subscribed
     const isSubscribed = () : boolean => {
-        return subscribed ? subscribed.success : false;
+        return subscribedStatus ? subscribedStatus.success : false;
     }
 
     return (
@@ -64,7 +66,7 @@ const Subscribe : NextPage<{}> = () => {
                 <input type="email" disabled={isSubscribed()} required={true} placeholder="your@email.com" id="email" onChange={e => setEmail(e.target.value)} />
                 <input type="submit" disabled={isSubscribed()} value="Subscribe" />
             </form>
-            {subscribed ? subscribed.success ? <p>{subscribed.message}</p> : <p>{subscribed.message}</p> : null}
+            {subscribedStatus ? subscribedStatus.success ? <p>{subscribedStatus.message}</p> : <p>{subscribedStatus.message}</p> : null}
         </>
     );
 }

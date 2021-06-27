@@ -1,15 +1,14 @@
 import { FormEvent, useState, MouseEvent } from "react";
 import { SendParams } from "../api/emails/send";
-import { NextPage, NextPageContext } from "next";
-import { verifyToken } from "../../utils/auth";
+import { NextPage, GetServerSideProps } from "next";
+import { TokenParams, verifyToken } from "../../utils/auth";
 import { LoginProps } from "./login";
 import { StatusMessage } from "..";
-import cookie from "cookie";
 import Link from 'next/link';
 import axios, { AxiosError } from "axios";
 
 const Dashboard : NextPage<LoginProps> = ({ loggedIn }) => {
-    const [sent, setSent] = useState<StatusMessage | null>(null);
+    const [sentStatus, setSentStatus] = useState<StatusMessage | null>(null);
 
     const [subject, setSubject] = useState<string | null>(null);
     const [title, setTitle] = useState<string | null>(null);
@@ -22,15 +21,30 @@ const Dashboard : NextPage<LoginProps> = ({ loggedIn }) => {
         e.preventDefault();
 
         // Attempt to send the email
+        axios.post<string>("/api/emails/send", { subject, title, body, articleURL, test } as SendParams)
+        .then(result => {
+            // Set the status
+            const payload : StatusMessage = { success: true, message: result.data }
+            setSentStatus(payload);
+
+            // If it was not a test then reset the form
+            if (!test) {
+                // @ts-ignore
+                e.target.reset();
+            }
+        })
+        .catch((error : AxiosError) => {
+            // Set the status
+            const payload : StatusMessage = { success: true, message: error.response?.data }
+            setSentStatus(payload);
+        });
     }
 
     // Log the user out
     const logout = (e : MouseEvent<HTMLAnchorElement>) => {
         // Request a logout
         axios.delete<string>("/api/auth")
-        .then(result => {
-            
-        })
+        .then(result => { })
         .catch((error : AxiosError) => {
             // Prevent the page from redirecting in case of error
             e.preventDefault();
@@ -56,6 +70,7 @@ const Dashboard : NextPage<LoginProps> = ({ loggedIn }) => {
                         <input type="checkbox" id="test" defaultChecked onChange={e => setTest(!test)} />
                         <input type="submit" value="Send" />
                     </form>
+                    {sentStatus ? sentStatus.success ? <p>{sentStatus.message}</p> : <p>{sentStatus.message}</p> : null}
                 </>
         );
         
@@ -64,26 +79,25 @@ const Dashboard : NextPage<LoginProps> = ({ loggedIn }) => {
     }
 }
 
-// Maybe make into a server side redirect at some point ?
-Dashboard.getInitialProps = async ({ req, res } : NextPageContext) => {
+export const getServerSideProps : GetServerSideProps<LoginProps> = async ({ req, res }) => {
     // Get the token before proceeding
-    const { token } : any = cookie.parse(req?.headers.cookie as string);
+    const { token } : TokenParams = req.cookies;
 
     // If there is a token verify it
     if (token) {
         const verified = verifyToken(token);
 
-        // If the token is valid proceed
+        // If the token is valid then proceed
         if (verified) {
-            return { loggedIn: true }
+            return { props: { loggedIn: true } }
         }
     }
 
     // Redirect and return false
-    res?.writeHead(302, { Location: "/admin/login" });
-    res?.end();
+    res.writeHead(302, { Location: "/admin/login" });
+    res.end();
 
-    return { loggedIn: false }
+    return { props: { loggedIn: false } }
 }
 
 export default Dashboard;

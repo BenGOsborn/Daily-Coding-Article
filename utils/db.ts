@@ -1,4 +1,4 @@
-import { Pool, QueryResult } from 'pg';
+import { Pool } from 'pg';
 
 export default class DB {
     private pool: Pool;

@@ -38,6 +38,9 @@ export default async function send(req : NextApiRequest, res : NextApiResponse) 
 
             // Get all of the emails
             const { rows } = await db.query("SELECT email FROM users");
+            if (rows.length === 0) {
+                return res.status(500).end("No users to email");
+            }
 
             // Send the emails
             await sendMail({ addresses: rows.map((row : { email : string }) => row.email), subject, text, html });

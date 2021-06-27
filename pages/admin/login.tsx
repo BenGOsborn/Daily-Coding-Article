@@ -1,11 +1,10 @@
 import axios, { AxiosError } from "axios";
-import { NextPage, NextPageContext } from "next";
+import { NextPage, GetServerSideProps } from "next";
 import { useRouter } from "next/dist/client/router";
 import { FormEvent, useState } from "react";
 import { StatusMessage } from "..";
-import { verifyToken } from "../../utils/auth";
+import { TokenParams, verifyToken } from "../../utils/auth";
 import { AuthParams } from "../api/auth";
-import cookie from "cookie";
 
 export interface LoginProps {
     loggedIn : boolean
@@ -61,9 +60,10 @@ const Login : NextPage<LoginProps> = ({ loggedIn }) => {
     }
 }
 
-Login.getInitialProps = async ({ req, res } : NextPageContext) => {
+
+export const getServerSideProps : GetServerSideProps<LoginProps> = async ({ req, res }) => {
     // Get the token before proceeding
-    const { token } : any = cookie.parse(req?.headers.cookie as string);
+    const { token } : TokenParams = req.cookies;
 
     // If there is a token verify it
     if (token) {
@@ -71,15 +71,15 @@ Login.getInitialProps = async ({ req, res } : NextPageContext) => {
 
         // If the token is valid redirect to the admin page
         if (verified) {
-            res?.writeHead(302, { Location: "/admin" });
-            res?.end();
+            res.writeHead(302, { Location: "/admin" });
+            res.end();
 
-            return { loggedIn: true }
+            return { props: { loggedIn: true } }
         }
     }
 
-    // Redirect and return false
-    return { loggedIn: false }
+    // Return false
+    return { props: { loggedIn: false } }
 }
 
 export default Login;

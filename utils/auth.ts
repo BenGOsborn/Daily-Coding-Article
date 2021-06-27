@@ -32,7 +32,7 @@ export async function protectedMiddleware(req : NextApiRequest, res : NextApiRes
     const { token } : TokenParams = req.cookies;
 
     // Check that the token exists
-    if (typeof token === typeof undefined) {
+    if (!token) {
         return res.status(403).end("Token is required");
     }
 
@@ -47,7 +47,7 @@ export async function protectedMiddleware(req : NextApiRequest, res : NextApiRes
         await callback();
 
     } catch (e) {
-        // Log the error and return error
+        // Print the error and return
         console.log(e);
         res.status(500).end("Internal Server Error");
     }

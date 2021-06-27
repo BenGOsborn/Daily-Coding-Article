@@ -46,7 +46,7 @@ export default async function auth(req : NextApiRequest, res : NextApiResponse) 
         const { token } : TokenParams = req.cookies;
 
         // Check that the user is logged in with a token
-        if (typeof token === typeof undefined) {
+        if (!token) {
             return res.status(400).end("Not logged in");
         }
 
