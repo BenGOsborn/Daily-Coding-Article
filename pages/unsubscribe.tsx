@@ -49,7 +49,7 @@ const Unsubscribe : NextPage<{}> = () => {
                 <input type="email" required={true} placeholder="your@email.com" id="email" onChange={e => setEmail(e.target.value)} />
                 <input type="submit" value="Unsubscribe" />
             </form>
-            {unsubscribedStatus ? unsubscribedStatus.success ? <p>{unsubscribedStatus.message}</p> : <p>{unsubscribedStatus.message}</p> : null}
+            {unsubscribedStatus ? unsubscribedStatus.success ? <p className="textSuccess">{unsubscribedStatus.message}</p> : <p className="textFail">{unsubscribedStatus.message}</p> : null}
         </>
     );
 }

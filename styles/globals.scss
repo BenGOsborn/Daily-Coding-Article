@@ -13,8 +13,32 @@ body {
 }
 
 main {
-    min-height: 100vh;
+    min-height: 80vh;
 }
 
-.container {
+.textSuccess {
+    font-weight: 600;
+    font-size: $fontDefault;
+    color: #16b85c;
+}
+
+.textFail {
+    font-weight: 600;
+    font-size: $fontDefault;
+    color: #e63636;
+}
+
+.button {
+    margin: 0 0 40px 0;
+    cursor: pointer;
+    font-size: $fontDefault;
+    border: none;
+    background-color: $colorPrimary;
+    border-radius: 6px;
+    color: $colorBackground;
+    padding: 5px 10px;
+    transition: all 0.2s ease 0s;
+    &:hover {
+        background-color: $colorSecondary;
+    }
 }

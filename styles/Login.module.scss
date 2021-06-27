@@ -10,12 +10,13 @@
 
     h1 {
         color: $colorAccentPrimary;
+        font-size: $fontTitle;
     }
 
     form {
         text-align: left;
         font-size: $fontDefault;
-        margin: 30px 0px;
+        margin: 10px 0px 30px 0;
 
         input {
             border: none;
@@ -31,27 +32,13 @@
         label {
             font-weight: 600;
             color: $colorAccentSecondary;
-            padding: 15px 0px;
+            padding: 40px 0px 5px 0;
         }
 
         input, label {
             display: block;
-            width: 275px;
+            width: 300px;
             margin: 15px 0px;
         }
-    }
-}
-
-.button {
-    cursor: pointer;
-    font-size: $fontDefault;
-    border: none;
-    background-color: $colorPrimary;
-    border-radius: 6px;
-    color: $colorBackground;
-    padding: 5px 10px;
-    transition: all 0.2s ease 0s;
-    &:hover {
-        background-color: $colorSecondary;
     }
 }

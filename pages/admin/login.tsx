@@ -43,20 +43,16 @@ const Login : NextPage<LoginProps> = ({ loggedIn }) => {
     // Display the page if not logged in otherwise display nothing whilst redirected
     if (!loggedIn) {
         return (
-            <div className="container">
-                <div className={styles.login}>
-                    <h1>Login</h1>
-                    <form onSubmit={login} id="LoginForm" >
-                        <section>
-                            <label htmlFor="username">Username</label>
-                            <input type="text" required={true} placeholder="Username" id="username" onChange={e => setUsername(e.target.value)} />
-                            <label htmlFor="password">Password</label>
-                            <input type="password" required={true} placeholder="Password" id="password" onChange={e => setPassword(e.target.value)} />
-                        </section>
-                    </form>
-                    <input type="submit" form="LoginForm" value="Login" className={styles.button} />
-                    {loginStatus ? loginStatus.success ? <p>{loginStatus.message}</p> : <p>{loginStatus.message}</p> : null}
-                </div>
+            <div className={styles.login}>
+                <h1>Login</h1>
+                <form onSubmit={login} id="loginForm">
+                    <label htmlFor="username">Username</label>
+                    <input type="text" required={true} placeholder="Username" id="username" onChange={e => setUsername(e.target.value)} />
+                    <label htmlFor="password">Password</label>
+                    <input type="password" required={true} placeholder="Password" id="password" onChange={e => setPassword(e.target.value)} />
+                </form>
+                <input type="submit" form="loginForm" value="Login" className="button" />
+                {loginStatus ? loginStatus.success ? <p className="textSuccess">{loginStatus.message}</p> : <p className="textFail">{loginStatus.message}</p> : null}
             </div>
         );
 

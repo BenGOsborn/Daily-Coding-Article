@@ -66,7 +66,7 @@ const Subscribe : NextPage<{}> = () => {
                 <input type="email" disabled={isSubscribed()} required={true} placeholder="your@email.com" id="email" onChange={e => setEmail(e.target.value)} />
                 <input type="submit" disabled={isSubscribed()} value="Subscribe" />
             </form>
-            {subscribedStatus ? subscribedStatus.success ? <p>{subscribedStatus.message}</p> : <p>{subscribedStatus.message}</p> : null}
+            {subscribedStatus ? subscribedStatus.success ? <p className="textSuccess">{subscribedStatus.message}</p> : <p className="textFail">{subscribedStatus.message}</p> : null}
         </>
     );
 }

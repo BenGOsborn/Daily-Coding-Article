@@ -6,6 +6,7 @@ import { LoginProps } from "./login";
 import { StatusMessage } from "..";
 import Link from 'next/link';
 import axios, { AxiosError } from "axios";
+import styles from "../../styles/Dashboard.module.scss";
 
 const Dashboard : NextPage<LoginProps> = ({ loggedIn }) => {
     const [sentStatus, setSentStatus] = useState<StatusMessage | null>(null);
@@ -54,24 +55,26 @@ const Dashboard : NextPage<LoginProps> = ({ loggedIn }) => {
     // Display the page if logged in otherwise display nothing whilst redirected
     if (loggedIn) {
         return (
-                <>
-                    <Link href="/"><a onClick={logout}>Logout</a></Link>
-                    <h1>Admin Dashboard</h1>
-                    <form onSubmit={send}>
-                        <label htmlFor="subject">Subject</label>
-                        <input type="text" required={true} placeholder="Subject" id="subject" onChange={e => setSubject(e.target.value)} />
-                        <label htmlFor="title">Title</label>
-                        <input type="text" required={true} placeholder="Title" id="title" onChange={e => setTitle(e.target.value)} />
-                        <label htmlFor="body">Body</label>
-                        <input type="text" required={true} placeholder="Body" id="body" onChange={e => setBody(e.target.value)} />
-                        <label htmlFor="articleURL">Article URL</label>
-                        <input type="text" required={true} placeholder="Article URL" id="articleURL" onChange={e => setArticleURL(e.target.value)} />
-                        <label htmlFor="test">Test Mode</label>
-                        <input type="checkbox" id="test" defaultChecked onChange={e => setTest(!test)} />
-                        <input type="submit" value="Send" />
-                    </form>
-                    {sentStatus ? sentStatus.success ? <p>{sentStatus.message}</p> : <p>{sentStatus.message}</p> : null}
-                </>
+            <div className={styles.dashboard}>
+                <Link href="/"><a onClick={logout}>Logout</a></Link>
+                <h1>Admin Dashboard</h1>
+                <form onSubmit={send} id="sendForm">
+                    <label htmlFor="subject">Subject</label>
+                    <input type="text" required={true} placeholder="Subject" id="subject" onChange={e => setSubject(e.target.value)} />
+                    <label htmlFor="title">Title</label>
+                    <input type="text" required={true} placeholder="Title" id="title" onChange={e => setTitle(e.target.value)} />
+                    <label htmlFor="body">Body</label>
+                    <textarea required={true} placeholder="Body" id="body" onChange={e => setBody(e.target.value)} />
+                    <label htmlFor="articleURL">Article URL</label>
+                    <input type="text" required={true} placeholder="Article URL" id="articleURL" onChange={e => setArticleURL(e.target.value)} />
+                </form>
+                <div className={styles.checkbox}>
+                    <label htmlFor="test">Test Mode</label>
+                    <input type="checkbox" id="test" defaultChecked onChange={e => setTest(!test)} />
+                </div>
+                <input type="submit" value="Send" form="sendForm" className="button" />
+                {sentStatus ? sentStatus.success ? <p className="textSuccess">{sentStatus.message}</p> : <p className="textFail">{sentStatus.message}</p> : null}
+            </div>
         );
         
     } else {

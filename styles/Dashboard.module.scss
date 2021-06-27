@@ -1,0 +1,79 @@
+@import "variables";
+
+.dashboard {
+    margin: 30px 0 70px 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    a {
+        font-size: $fontDefault;
+        margin: 0 0 50px 0;
+        color: $colorAccentSecondary;
+        transition: all 0.2s ease 0s;
+        &:hover {
+            color: $colorHoverBackground;
+        }
+    }
+
+    h1 {
+        color: $colorAccentPrimary;
+        font-size: $fontTitle;
+    }
+
+    form {
+        text-align: left;
+        font-size: $fontDefault;
+        margin: 10px 0px 30px 0;
+
+        input {
+            border: none;
+            outline: none;
+            border-bottom: 2px solid $colorPrimary;
+            font-size: $fontDefault;
+            transition: all 0.2s ease 0s;
+            &:hover, &:focus {
+                border-bottom: 2px solid $colorSecondary;
+            }
+        }
+
+        label {
+            font-weight: 600;
+            color: $colorAccentSecondary;
+            padding: 40px 0px 5px 0;
+        }
+
+        input, label {
+            display: block;
+            width: 400px;
+            margin: 15px 0px;
+        }
+
+        textarea {
+            resize: vertical;
+            border: none;
+            outline: none;
+            min-height: 60px;
+            width: 400px !important; 
+            border-bottom: 2px solid $colorPrimary;
+            font-size: $fontDefault;
+            transition: all 0.2s ease 0s;
+            &:hover, &:focus {
+                border-bottom: 2px solid $colorSecondary;
+            }
+        }
+    }
+
+    .checkbox {
+        margin: 10px 0 30px 0;
+        font-weight: 600;
+        color: $colorAccentSecondary;
+        width: 20%;
+        font-size: $fontDefault;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+}
