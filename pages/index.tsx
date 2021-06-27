@@ -1,14 +1,16 @@
-import { FC, useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import axios from "axios";
 import { SubscribeParams } from "./api/emails";
+import { NextPage } from "next";
 
 export interface StatusMessage {
     success : boolean,
     message : string
 }
 
-const Subscribe : FC<{}> = () => {
+const Subscribe : NextPage<{}> = () => {
     const [subscribed, setSubscribed] = useState<StatusMessage | null>(null);
+    
     const [email, setEmail] = useState<string | null>(null);
 
     useEffect(() => {
@@ -30,8 +32,8 @@ const Subscribe : FC<{}> = () => {
             return;
         }
 
-        // Attempt to set the email - ******** I WANT TO ADD TYPESCRIPT TO THESE RESPONSES - https://github.com/axios/axios/issues/3612
-        axios.post("/api/emails", { email } as SubscribeParams)
+        // Attempt to set the email
+        axios.post<string>("/api/emails", { email } as SubscribeParams)
         .then(result => {
             // Set the status and store in local storage
             const subscribedStatus : StatusMessage = { success: true, message: result.data }
@@ -54,7 +56,7 @@ const Subscribe : FC<{}> = () => {
     }
 
     return (
-        <div>
+        <>
             <h1>Subscribe</h1>
             <p>Receive a new coding based article everyday to expand your knowledge!</p>
             <form onSubmit={subscribe}>
@@ -63,7 +65,7 @@ const Subscribe : FC<{}> = () => {
                 <input type="submit" disabled={isSubscribed()} value="Subscribe" />
             </form>
             {subscribed ? subscribed.success ? <p>{subscribed.message}</p> : <p>{subscribed.message}</p> : null}
-        </div>
+        </>
     );
 }
 

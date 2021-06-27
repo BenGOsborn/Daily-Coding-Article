@@ -1,10 +1,12 @@
-import { FC, useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { StatusMessage } from ".";
 import axios from "axios";
 import { UnsubscribeParams } from "./api/emails";
+import { NextPage } from "next";
 
-const Unsubscribe : FC<{}> = () => {
+const Unsubscribe : NextPage<{}> = () => {
     const [unsubscribed, setUnsubscribed] = useState<StatusMessage | null>(null);
+    
     const [email, setEmail] = useState<string | null>(null);
 
     // Unsubscribe the user from the email list
@@ -19,7 +21,7 @@ const Unsubscribe : FC<{}> = () => {
         }
 
         // Unsubscribe the user from the email list
-        axios.delete("/api/emails", { data: { email } as UnsubscribeParams })
+        axios.delete<string>("/api/emails", { data: { email } as UnsubscribeParams })
         .then(result => {
             // Set the status
             const unsubscribedStatus : StatusMessage = { success: true, message: result.data }
@@ -33,7 +35,7 @@ const Unsubscribe : FC<{}> = () => {
     }
 
     return (
-        <div>
+        <>
             <h1>Unsubscribe</h1>
             <p>We're sad to see you go!</p>
             <form onSubmit={unsubscribe}>
@@ -42,7 +44,7 @@ const Unsubscribe : FC<{}> = () => {
                 <input type="submit" value="Unsubscribe" />
             </form>
             {unsubscribed ? unsubscribed.success ? <p>{unsubscribed.message}</p> : <p>{unsubscribed.message}</p> : null}
-        </div>
+        </>
     );
 }
 

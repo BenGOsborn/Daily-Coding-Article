@@ -3,7 +3,7 @@ import { genToken } from '../../../utils/auth';
 import cookie from 'cookie';
 import { TokenParams } from '../../../utils/auth';
 
-export interface LoginParams {
+export interface AuthParams {
     username : string,
     password : string
 }
@@ -11,7 +11,7 @@ export interface LoginParams {
 export default async function auth(req : NextApiRequest, res : NextApiResponse) {
     if (req.method === 'POST') {
         // Get the params from the request
-        const { username, password } : LoginParams = req.body;
+        const { username, password } : AuthParams = req.body;
 
         // Verify the admin username and password
         if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
@@ -34,7 +34,7 @@ export default async function auth(req : NextApiRequest, res : NextApiResponse) 
             );
 
             // Return the token
-            return res.status(200).end(token);
+            return res.status(200).end("Login successful");
 
         } else {
             // Return an error message
