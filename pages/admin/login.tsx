@@ -49,9 +49,9 @@ const Login : NextPage<LoginProps> = ({ loggedIn }) => {
                     <form onSubmit={login} id="LoginForm" >
                         <section>
                             <label htmlFor="username">Username</label>
-                            <input type="text" required={true} placeholder="Admin username" id="username" onChange={e => setUsername(e.target.value)} />
+                            <input type="text" required={true} placeholder="Username" id="username" onChange={e => setUsername(e.target.value)} />
                             <label htmlFor="password">Password</label>
-                            <input type="password" required={true} placeholder="Admin password" id="password" onChange={e => setPassword(e.target.value)} />
+                            <input type="password" required={true} placeholder="Password" id="password" onChange={e => setPassword(e.target.value)} />
                         </section>
                     </form>
                     <input type="submit" form="LoginForm" value="Login" className={styles.button} />
