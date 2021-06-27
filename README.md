@@ -6,3 +6,4 @@
  - Add the URL in module.exports for use in the unsubscribe URL
  - Add head tags
  - Make email template
+ - Add environment variables to Heroku
