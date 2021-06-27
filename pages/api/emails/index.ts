@@ -1,19 +1,22 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import DB from '../../../utils/db';
-import emailSchema from '../../../joiSchema/emailSchema';
+import type { NextApiRequest, NextApiResponse } from "next";
+import DB from "../../../utils/db";
+import emailSchema from "../../../joiSchema/emailSchema";
 
 export interface SubscribeParams {
-    email : string
+    email: string;
 }
 
 export interface UnsubscribeParams {
-    email : string
+    email: string;
 }
 
-export default async function subscribe(req : NextApiRequest, res : NextApiResponse) {
-    if (req.method === 'POST') {
+export default async function subscribe(
+    req: NextApiRequest,
+    res: NextApiResponse
+) {
+    if (req.method === "POST") {
         // Get the email to add from the request
-        const { email } : SubscribeParams = req.body;
+        const { email }: SubscribeParams = req.body;
 
         // Verify the email with the schema
         const { error } = emailSchema.validate({ email });
@@ -25,13 +28,19 @@ export default async function subscribe(req : NextApiRequest, res : NextApiRespo
         const db = new DB();
 
         // Check if the email already exists
-        const { rows: existingEmails } = await db.query("SELECT * FROM users WHERE email = $1", [email]);
+        const { rows: existingEmails } = await db.query(
+            "SELECT * FROM users WHERE email = $1",
+            [email]
+        );
         if (existingEmails.length > 0) {
             return res.status(200).end("Email is already subscribed");
         }
 
         // Add the new email if it doesnt exist
-        const inserted = await db.query("INSERT INTO users (email) VALUES ($1)", [email]);
+        const inserted = await db.query(
+            "INSERT INTO users (email) VALUES ($1)",
+            [email]
+        );
         if (inserted.rowCount === 0) {
             return res.status(500).end("Failed to subscribe email");
         }
@@ -40,11 +49,10 @@ export default async function subscribe(req : NextApiRequest, res : NextApiRespo
         db.close();
 
         // Return success
-        return res.status(200).end("Email subscribed")
-
-    } else if (req.method === 'DELETE') {
+        return res.status(200).end("Email subscribed");
+    } else if (req.method === "DELETE") {
         // Get the email from the request
-        const { email } : UnsubscribeParams = req.body;
+        const { email }: UnsubscribeParams = req.body;
 
         // Check that the email is specified in the request
         if (typeof email === typeof undefined) {
@@ -55,7 +63,9 @@ export default async function subscribe(req : NextApiRequest, res : NextApiRespo
         const db = new DB();
 
         // Attempt to delete the item from the database if it exists
-        const deleted = await db.query("DELETE FROM users WHERE email = $1", [email]);
+        const deleted = await db.query("DELETE FROM users WHERE email = $1", [
+            email,
+        ]);
         if (deleted.rowCount === 0) {
             return res.status(500).end("Failed to unsubscribe email");
         }
@@ -65,7 +75,6 @@ export default async function subscribe(req : NextApiRequest, res : NextApiRespo
 
         // Return success
         return res.status(200).end("Successfully unsubscribed email");
-
     } else {
         return res.status(400).end("Invalid method");
     }

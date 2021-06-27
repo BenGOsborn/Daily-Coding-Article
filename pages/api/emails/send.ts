@@ -1,19 +1,24 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { protectedMiddleware } from "../../../utils/auth";
-import compileTemplate, { TemplateContent } from '../../../emailTemplates/compileTemplate';
+import compileTemplate, {
+    TemplateContent,
+} from "../../../emailTemplates/compileTemplate";
 import DB from "../../../utils/db";
 import { EmailParams, sendMail } from "../../../utils/email";
 
-export interface SendParams extends Omit<EmailParams, "addresses" | "text" | "html">, Omit<TemplateContent, "unsubscribe"> {
-    test? : boolean
+export interface SendParams
+    extends Omit<EmailParams, "addresses" | "text" | "html">,
+        Omit<TemplateContent, "unsubscribe"> {
+    test?: boolean;
 }
 
-export default async function send(req : NextApiRequest, res : NextApiResponse) {
-    if (req.method === 'POST') {
+export default async function send(req: NextApiRequest, res: NextApiResponse) {
+    if (req.method === "POST") {
         // Verify that the details are correct
         protectedMiddleware(req, res, async () => {
             // Get the params from the request
-            const { subject, title, body, articleURL, test } : SendParams = req.body;
+            const { subject, title, body, articleURL, test }: SendParams =
+                req.body;
 
             // Make sure all of the params are specified
             if (!(subject && title && body && articleURL)) {
@@ -24,11 +29,21 @@ export default async function send(req : NextApiRequest, res : NextApiResponse) 
             const unsubscribe = "https://unsubscribe.com";
 
             const text = `${title}\n\n${body}\n\n${articleURL}\n${unsubscribe}`;
-            const html = await compileTemplate({ title, body, articleURL, unsubscribe });
+            const html = await compileTemplate({
+                title,
+                body,
+                articleURL,
+                unsubscribe,
+            });
 
             // If the message is a test, then send a single email to the the sender and return success
             if (test) {
-                await sendMail({ addresses: [process.env.GMAIL_USER as string], subject, text, html });
+                await sendMail({
+                    addresses: [process.env.GMAIL_USER as string],
+                    subject,
+                    text,
+                    html,
+                });
 
                 return res.status(200).end("Test email sent");
             }
@@ -43,7 +58,12 @@ export default async function send(req : NextApiRequest, res : NextApiResponse) 
             }
 
             // Send the emails
-            await sendMail({ addresses: rows.map((row : { email : string }) => row.email), subject, text, html });
+            await sendMail({
+                addresses: rows.map((row: { email: string }) => row.email),
+                subject,
+                text,
+                html,
+            });
 
             // Close the database
             await db.close();
@@ -51,7 +71,6 @@ export default async function send(req : NextApiRequest, res : NextApiResponse) 
             // Return success
             return res.status(200).end("Emails sent");
         });
-
     } else {
         return res.status(400).end("Invalid method");
     }

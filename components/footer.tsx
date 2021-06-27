@@ -1,8 +1,8 @@
-import { FC } from "react"
+import { FC } from "react";
 import Link from "next/link";
-import styles from "../styles/Footer.module.scss"
+import styles from "../styles/Footer.module.scss";
 
-const Footer : FC<{}> = () => {
+const Footer: FC<{}> = () => {
     return (
         <footer className={styles.Footer}>
             <div className={styles.links}>
@@ -12,6 +12,6 @@ const Footer : FC<{}> = () => {
             </div>
         </footer>
     );
-}
+};
 
 export default Footer;

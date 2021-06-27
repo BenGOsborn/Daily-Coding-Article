@@ -8,10 +8,10 @@ import { AuthParams } from "../api/auth";
 import styles from "../../styles/Login.module.scss";
 
 export interface LoginProps {
-    loggedIn : boolean
+    loggedIn: boolean;
 }
 
-const Login : NextPage<LoginProps> = ({ loggedIn }) => {
+const Login: NextPage<LoginProps> = ({ loggedIn }) => {
     const [loginStatus, setLoginStatus] = useState<StatusMessage | null>(null);
 
     const [username, setUsername] = useState<string | null>(null);
@@ -19,26 +19,33 @@ const Login : NextPage<LoginProps> = ({ loggedIn }) => {
 
     const router = useRouter();
 
-    const login = (e : FormEvent<HTMLFormElement>) => {
+    const login = (e: FormEvent<HTMLFormElement>) => {
         // Prevent the page from reloading
         e.preventDefault();
 
         // Make a request to axios
-        axios.post<string>("/api/auth", { username, password } as AuthParams)
-        .then(result => {
-            // Set the status
-            const payload : StatusMessage = { success: true, message: result.data }
-            setLoginStatus(payload);
+        axios
+            .post<string>("/api/auth", { username, password } as AuthParams)
+            .then((result) => {
+                // Set the status
+                const payload: StatusMessage = {
+                    success: true,
+                    message: result.data,
+                };
+                setLoginStatus(payload);
 
-            // Redirect to the admin page
-            router.push("/admin");
-        })
-        .catch((result : AxiosError) => {
-            // Set the status
-            const payload : StatusMessage = { success: false, message: result.response?.data }
-            setLoginStatus(payload);
-        });
-    }
+                // Redirect to the admin page
+                router.push("/admin");
+            })
+            .catch((result: AxiosError) => {
+                // Set the status
+                const payload: StatusMessage = {
+                    success: false,
+                    message: result.response?.data,
+                };
+                setLoginStatus(payload);
+            });
+    };
 
     // Display the page if not logged in otherwise display nothing whilst redirected
     if (!loggedIn) {
@@ -47,24 +54,48 @@ const Login : NextPage<LoginProps> = ({ loggedIn }) => {
                 <h1>Login</h1>
                 <form onSubmit={login} id="loginForm">
                     <label htmlFor="username">Username</label>
-                    <input type="text" required={true} placeholder="Username" id="username" onChange={e => setUsername(e.target.value)} />
+                    <input
+                        type="text"
+                        required={true}
+                        placeholder="Username"
+                        id="username"
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
                     <label htmlFor="password">Password</label>
-                    <input type="password" required={true} placeholder="Password" id="password" onChange={e => setPassword(e.target.value)} />
+                    <input
+                        type="password"
+                        required={true}
+                        placeholder="Password"
+                        id="password"
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
                 </form>
-                <input type="submit" form="loginForm" value="Login" className="button" />
-                {loginStatus ? loginStatus.success ? <p className="textSuccess">{loginStatus.message}</p> : <p className="textFail">{loginStatus.message}</p> : null}
+                <input
+                    type="submit"
+                    form="loginForm"
+                    value="Login"
+                    className="button"
+                />
+                {loginStatus ? (
+                    loginStatus.success ? (
+                        <p className="textSuccess">{loginStatus.message}</p>
+                    ) : (
+                        <p className="textFail">{loginStatus.message}</p>
+                    )
+                ) : null}
             </div>
         );
-
     } else {
         return null;
     }
-}
+};
 
-
-export const getServerSideProps : GetServerSideProps<LoginProps> = async ({ req, res }) => {
+export const getServerSideProps: GetServerSideProps<LoginProps> = async ({
+    req,
+    res,
+}) => {
     // Get the token before proceeding
-    const { token } : TokenParams = req.cookies;
+    const { token }: TokenParams = req.cookies;
 
     // If there is a token verify it
     if (token) {
@@ -75,12 +106,12 @@ export const getServerSideProps : GetServerSideProps<LoginProps> = async ({ req,
             res.statusCode = 302;
             res.setHeader("Location", "/admin");
 
-            return { props: { loggedIn: true } }
+            return { props: { loggedIn: true } };
         }
     }
 
     // Return false
-    return { props: { loggedIn: false } }
-}
+    return { props: { loggedIn: false } };
+};
 
 export default Login;

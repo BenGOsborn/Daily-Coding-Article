@@ -1,20 +1,23 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { genToken } from '../../../utils/auth';
-import cookie from 'cookie';
-import { TokenParams } from '../../../utils/auth';
+import type { NextApiRequest, NextApiResponse } from "next";
+import { genToken } from "../../../utils/auth";
+import cookie from "cookie";
+import { TokenParams } from "../../../utils/auth";
 
 export interface AuthParams {
-    username : string,
-    password : string
+    username: string;
+    password: string;
 }
 
-export default async function auth(req : NextApiRequest, res : NextApiResponse) {
-    if (req.method === 'POST') {
+export default async function auth(req: NextApiRequest, res: NextApiResponse) {
+    if (req.method === "POST") {
         // Get the params from the request
-        const { username, password } : AuthParams = req.body;
+        const { username, password }: AuthParams = req.body;
 
         // Verify the admin username and password
-        if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
+        if (
+            username === process.env.ADMIN_USERNAME &&
+            password === process.env.ADMIN_PASSWORD
+        ) {
             // Set the expiry of the token to be 1 day
             const expiry = 60 * 60 * 24;
 
@@ -26,24 +29,22 @@ export default async function auth(req : NextApiRequest, res : NextApiResponse) 
                 "Set-Cookie",
                 cookie.serialize("token", token, {
                     httpOnly: true,
-                    secure: process.env.NODE_ENV !== 'development',
+                    secure: process.env.NODE_ENV !== "development",
                     maxAge: expiry,
                     sameSite: "strict",
-                    path: "/"
+                    path: "/",
                 })
             );
 
             // Return the token
             return res.status(200).end("Login successful");
-
         } else {
             // Return an error message
             return res.status(400).end("Invalid details");
         }
-
-    } else if (req.method === 'DELETE') {
+    } else if (req.method === "DELETE") {
         // Determine if the cookie exists
-        const { token } : TokenParams = req.cookies;
+        const { token }: TokenParams = req.cookies;
 
         // Check that the user is logged in with a token
         if (!token) {
@@ -55,16 +56,15 @@ export default async function auth(req : NextApiRequest, res : NextApiResponse) 
             "Set-Cookie",
             cookie.serialize("token", "", {
                 httpOnly: true,
-                secure: process.env.NODE_ENV !== 'development',
+                secure: process.env.NODE_ENV !== "development",
                 expires: new Date(0),
                 sameSite: "strict",
-                path: "/"
+                path: "/",
             })
         );
 
         // Return success
         return res.status(200).end("Logout successful");
-
     } else {
         // Return error
         return res.status(400).end("Invalid method");
