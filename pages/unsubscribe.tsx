@@ -59,11 +59,11 @@ const Unsubscribe : NextPage<{}> = () => {
         <div className={styles.container}>
             <h1>We're sad to see you go!</h1>
             <p>If there's anything we can do to change your mind, let us know.</p>
-            <form onSubmit={unsubscribe}>
+            <form onSubmit={unsubscribe} id="unsubscribe">
                 <label htmlFor="email">Your Email</label>
                 <input type="email" required={true} value={email} placeholder="your@email.com" id="email" onChange={e => setEmail(e.target.value)} />
             </form>
-            <input type="submit" value="Unsubscribe" className="button" />
+            <input type="submit" value="Unsubscribe" className="button" form="unsubscribe" />
             {unsubscribedStatus ? unsubscribedStatus.success ? <p className="textSuccess">{unsubscribedStatus.message}</p> : <p className="textFail">{unsubscribedStatus.message}</p> : null}
         </div>
     );
