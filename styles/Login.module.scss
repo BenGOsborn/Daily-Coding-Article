@@ -21,7 +21,7 @@
             border: none;
             outline: none;
             border-bottom: 2px solid $colorPrimary;
-            font-size: 18px;
+            font-size: $fontDefault;
             transition: all 0.2s ease 0s;
             &:hover, &:focus {
                 border-bottom: 2px solid $colorSecondary;
@@ -40,8 +40,18 @@
             margin: 15px 0px;
         }
     }
+}
 
-    input {
-        font-size: ;
+.button {
+    cursor: pointer;
+    font-size: $fontDefault;
+    border: none;
+    background-color: $colorPrimary;
+    border-radius: 6px;
+    color: $colorBackground;
+    padding: 5px 10px;
+    transition: all 0.2s ease 0s;
+    &:hover {
+        background-color: $colorSecondary;
     }
 }

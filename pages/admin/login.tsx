@@ -54,7 +54,7 @@ const Login : NextPage<LoginProps> = ({ loggedIn }) => {
                             <input type="password" required={true} placeholder="Admin password" id="password" onChange={e => setPassword(e.target.value)} />
                         </section>
                     </form>
-                    <input type="submit" form="LoginForm" value="Login" />
+                    <input type="submit" form="LoginForm" value="Login" className={styles.button} />
                     {loginStatus ? loginStatus.success ? <p>{loginStatus.message}</p> : <p>{loginStatus.message}</p> : null}
                 </div>
             </div>
