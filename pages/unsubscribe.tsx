@@ -64,14 +64,13 @@ const Unsubscribe: NextPage<{}> = () => {
             });
     };
 
-    // Maybe have some sort of way of determining what is in the field by storing the users email in local storage
-    // Would this be vulnerable and insecure ?
-
     return (
         <div className={styles.container}>
-            <h1>We're sad to see you go!</h1>
+            <h1>{"We're sad to see you go!"}</h1>
             <p>
-                If there's anything we can do to change your mind, let us know.
+                {
+                    "If there's anything we can do to change your mind, let us know."
+                }
             </p>
             <form onSubmit={unsubscribe} id="unsubscribe">
                 <label htmlFor="email">Your Email</label>
