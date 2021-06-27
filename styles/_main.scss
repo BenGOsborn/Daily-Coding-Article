@@ -1,0 +1,85 @@
+@import "variables";
+
+.container {
+    margin: 125px auto 0 auto;
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+
+    h1 {
+        color: $colorAccentPrimary;
+        font-size: $fontTitle;
+    }
+
+    p {
+        font-size: $fontDefault;
+        margin: 20px 0;
+    }
+
+    form {
+        input {
+            text-align: center;
+            border: none;
+            outline: none;
+            border-bottom: 2px solid $colorPrimary;
+            transition: all 0.2s ease 0s;
+            &:hover, &:focus {
+                border-bottom: 2px solid $colorSecondary;
+            }
+        }
+
+        label {
+            font-weight: 600;
+            color: $colorAccentSecondary;
+        }
+
+        input, label {
+            font-size: $fontDefault;
+            display: block;
+            width: 300px;
+            margin: 30px 0px;
+        }
+    }
+
+
+    @media (max-width: $screenMedium) {
+        width: 50%;
+
+        p {
+            font-size: $fontDefault - 2;
+        }
+
+        h1 {
+            font-size: $fontTitle - 5;
+        }
+
+        form {
+            input, label {
+                font-size: $fontDefault - 2;
+                width: 200px;
+            }
+        }
+    }
+
+    @media (max-width: $screenSmall) {
+        width: 70%;
+
+        p {
+            font-size: $fontDefault - 4;
+        }
+
+        h1 {
+            font-size: $fontTitle - 10;
+        }
+
+        form {
+            input, label {
+                font-size: $fontDefault - 4;
+                width: 150px;
+            }
+        }
+    }
+}

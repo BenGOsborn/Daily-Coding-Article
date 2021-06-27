@@ -2,14 +2,19 @@ import { useState, useEffect, ChangeEvent } from "react";
 import axios from "axios";
 import { SubscribeParams } from "./api/emails";
 import { NextPage } from "next";
+import styles from "../styles/Subscribe.module.scss";
 
 export interface StatusMessage {
     success : boolean,
     message : string
 }
 
+export interface EmailStatusMessage extends StatusMessage {
+    email: string
+}
+
 const Subscribe : NextPage<{}> = () => {
-    const [subscribedStatus, setSubscribedStatus] = useState<StatusMessage | null>(null);
+    const [subscribedStatus, setSubscribedStatus] = useState<EmailStatusMessage | null>(null);
     
     const [email, setEmail] = useState<string | null>(null);
 
@@ -17,7 +22,7 @@ const Subscribe : NextPage<{}> = () => {
         // Attempt to get the subscribed status from the local storage
         const subscribedStatus = localStorage.getItem("subscribed");
         if (subscribedStatus) {
-            setSubscribedStatus(JSON.parse(subscribedStatus) as StatusMessage);
+            setSubscribedStatus(JSON.parse(subscribedStatus) as EmailStatusMessage);
         }
     }, []);
 
@@ -36,7 +41,7 @@ const Subscribe : NextPage<{}> = () => {
         axios.post<string>("/api/emails", { email } as SubscribeParams)
         .then(result => {
             // Set the status and store in local storage
-            const subscribedStatus : StatusMessage = { success: true, message: result.data }
+            const subscribedStatus : EmailStatusMessage = { success: true, message: result.data, email }
             setSubscribedStatus(subscribedStatus);
 
             // Save the status to local storage
@@ -47,27 +52,26 @@ const Subscribe : NextPage<{}> = () => {
         })
         .catch(error => {
             // Set the status as an error message
-            const subscribedStatus : StatusMessage = { success: false, message: error.response.data }
+            const subscribedStatus : EmailStatusMessage = { success: false, message: error.response.data, email }
             setSubscribedStatus(subscribedStatus);
         });
     }
 
-    // Check if the email is already subscribed
-    const isSubscribed = () : boolean => {
-        return subscribedStatus ? subscribedStatus.success : false;
-    }
-
     return (
-        <>
-            <h1>Subscribe</h1>
+        <div className={styles.container}>
+            <h1>Daily Coding Article</h1>
             <p>Receive a new coding based article everyday to expand your knowledge!</p>
-            <form onSubmit={subscribe}>
-                <label htmlFor="email">Your Email</label>
-                <input type="email" disabled={isSubscribed()} required={true} placeholder="your@email.com" id="email" onChange={e => setEmail(e.target.value)} />
-                <input type="submit" disabled={isSubscribed()} value="Subscribe" />
-            </form>
+            {!subscribedStatus?.success ?
+            <>
+                <form onSubmit={subscribe} id="subscribe">
+                    <label htmlFor="email">Your Email</label>
+                    <input type="email" required={true} placeholder="your@email.com" id="email" onChange={e => setEmail(e.target.value)} />
+                </form>
+                <input type="submit" value="Subscribe" form="subscribe" className="button" />
+            </>
+            : null}
             {subscribedStatus ? subscribedStatus.success ? <p className="textSuccess">{subscribedStatus.message}</p> : <p className="textFail">{subscribedStatus.message}</p> : null}
-        </>
+        </div>
     );
 }
 
