@@ -6,4 +6,3 @@
  - Add head tags
  - Make email template
  - Add environment variables to Heroku
- - Make sure app can push to Heroku properly (weird comma errors ? )
