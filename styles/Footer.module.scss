@@ -11,7 +11,7 @@
     align-items: center;
 
     .links {
-        width: 40%;
+        width: 50%;
         padding: 10px 0;
         display: flex;
         justify-content: space-between;
@@ -24,6 +24,18 @@
                 color: $colorHoverBackground
             }
         }
+    }
+
+
+    @media (max-width: $screenMedium) {
+        .links {
+            flex-direction: column;
+            padding: 0;
+
+            a {
+                padding: 10px 0;
+            }
+        }    
     }
 
 }

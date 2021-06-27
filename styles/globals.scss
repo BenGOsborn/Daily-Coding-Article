@@ -41,4 +41,12 @@ main {
     &:hover {
         background-color: $colorSecondary;
     }
+
+    @media (max-width: $screenMedium) {
+        font-size: $fontDefault - 2;
+    }
+
+    @media (max-width: $screenSmall) {
+        font-size: $fontDefault - 4;
+    }
 }
