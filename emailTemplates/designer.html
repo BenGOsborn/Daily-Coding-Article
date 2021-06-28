@@ -1,0 +1,102 @@
+<!-- This doesnt use tables like it should -->
+<!-- https://templates.mailchimp.com/resources/inline-css/ -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <style>
+            * {
+                font-family: urw-form, Helvetica, sans-serif;
+                text-decoration: none;
+                margin: 0;
+                border: 0;
+                padding: 0;
+            }
+
+            body {
+                background-color: #a8abac;
+                font-size: 18px;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 0 2%;
+            }
+
+            .container {
+                width: 100%;
+                background-color: #ffffff;
+                text-align: center;
+            }
+
+            header {
+                background-color: #2f3031;
+                padding: 20px 0;
+                border-bottom: 10px solid #3d9bf8;
+                margin: 0 0 40px 0;
+            }
+
+            h1 {
+                margin: auto;
+                width: 60%;
+                text-align: center;
+                color: #ffffff;
+                text-transform: capitalize;
+            }
+
+            p {
+                color: #15191a;
+                padding: 10px 0;
+            }
+
+            .body {
+                width: 60%;
+                margin: 20px auto;
+                text-align: left;
+            }
+
+            .check-it-out {
+                padding: 15px 0;
+            }
+
+            .check-it-out a {
+                background-color: #4e45fb;
+                border-radius: 6px;
+                padding: 5px 10px;
+                font-size: 20px;
+                font-weight: 600;
+            }
+
+            a {
+                color: white;
+                font-size: 15px;
+            }
+
+            footer {
+                margin: 20px 0 0 0;
+                border-top: 5px solid #2f3031;
+                padding: 20px 0;
+                text-align: center;
+                background-color: #15191a;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1><%= title %></h1>
+            </header>
+
+            <div class="body">
+                <% for (const line of body) { %>
+                <p><%= line %></p>
+                <% } %>
+            </div>
+
+            <div class="check-it-out">
+                <a href="<%= articleURL %>" target="_blank">Check It Out</a>
+            </div>
+
+            <footer>
+                <a href="<%= unsubscribe %>" target="_blank">Unsubscribe</a>
+            </footer>
+        </div>
+    </body>
+</html>

@@ -1,15 +1,163 @@
+<!-- This doesnt use tables like it should -->
+<!-- https://templates.mailchimp.com/resources/inline-css/ -->
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
+<html
+    lang="en"
+    style="
+        font-family: urw-form, Helvetica, sans-serif;
+        text-decoration: none;
+        margin: 0;
+        border: 0;
+        padding: 0;
+    "
+>
+    <head
+        style="
+            font-family: urw-form, Helvetica, sans-serif;
+            text-decoration: none;
+            margin: 0;
+            border: 0;
+            padding: 0;
+        "
+    >
     </head>
-    <body>
-        <h1><%= title %></h1>
-        <h3><%= body %></h3>
-        <a href="<%= articleURL %>">Link</a>
-        <a href="<%= unsubscribe %>">Unsubscribe</a>
+    <body
+        style="
+            font-family: urw-form, Helvetica, sans-serif;
+            text-decoration: none;
+            margin: 0 auto;
+            border: 0;
+            padding: 0 2%;
+            background-color: #a8abac;
+            font-size: 18px;
+            max-width: 800px;
+        "
+    >
+        <div
+            class="container"
+            style="
+                font-family: urw-form, Helvetica, sans-serif;
+                text-decoration: none;
+                margin: 0;
+                border: 0;
+                padding: 0;
+                width: 100%;
+                background-color: #ffffff;
+                text-align: center;
+            "
+        >
+            <header
+                style="
+                    font-family: urw-form, Helvetica, sans-serif;
+                    text-decoration: none;
+                    margin: 0 0 40px 0;
+                    border: 0;
+                    padding: 20px 0;
+                    background-color: #2f3031;
+                    border-bottom: 10px solid #3d9bf8;
+                "
+            >
+                <h1
+                    style="
+                        font-family: urw-form, Helvetica, sans-serif;
+                        text-decoration: none;
+                        margin: auto;
+                        border: 0;
+                        padding: 0;
+                        width: 60%;
+                        text-align: center;
+                        color: #ffffff;
+                        text-transform: capitalize;
+                    "
+                >
+                    <%= title %>
+                </h1>
+            </header>
+
+            <div
+                class="body"
+                style="
+                    font-family: urw-form, Helvetica, sans-serif;
+                    text-decoration: none;
+                    margin: 20px auto;
+                    border: 0;
+                    padding: 0;
+                    width: 60%;
+                    text-align: left;
+                "
+            >
+                <% for (const line of body) { %>
+                <p
+                    style="
+                        font-family: urw-form, Helvetica, sans-serif;
+                        text-decoration: none;
+                        margin: 0;
+                        border: 0;
+                        padding: 10px 0;
+                        color: #15191a;
+                    "
+                >
+                    <%= line %>
+                </p>
+                <% } %>
+            </div>
+
+            <div
+                class="check-it-out"
+                style="
+                    font-family: urw-form, Helvetica, sans-serif;
+                    text-decoration: none;
+                    margin: 0;
+                    border: 0;
+                    padding: 15px 0;
+                "
+            >
+                <a
+                    href="<%= articleURL %>"
+                    target="_blank"
+                    style="
+                        font-family: urw-form, Helvetica, sans-serif;
+                        text-decoration: none;
+                        margin: 0;
+                        border: 0;
+                        padding: 5px 10px;
+                        color: white;
+                        font-size: 20px;
+                        background-color: #4e45fb;
+                        border-radius: 6px;
+                        font-weight: 600;
+                    "
+                    >Check It Out</a
+                >
+            </div>
+
+            <footer
+                style="
+                    font-family: urw-form, Helvetica, sans-serif;
+                    text-decoration: none;
+                    margin: 20px 0 0 0;
+                    border: 0;
+                    padding: 20px 0;
+                    border-top: 5px solid #2f3031;
+                    text-align: center;
+                    background-color: #15191a;
+                "
+            >
+                <a
+                    href="<%= unsubscribe %>"
+                    target="_blank"
+                    style="
+                        font-family: urw-form, Helvetica, sans-serif;
+                        text-decoration: none;
+                        margin: 0;
+                        border: 0;
+                        padding: 0;
+                        color: white;
+                        font-size: 15px;
+                    "
+                    >Unsubscribe</a
+                >
+            </footer>
+        </div>
     </body>
 </html>
