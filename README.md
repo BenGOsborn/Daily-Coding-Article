@@ -4,7 +4,7 @@
 
 ### How it was built
 
-The app was built using NextJS and TypeScript for both the frontend and backend. This provided me with a framework for building a frontend using ReactJS while still getting the benefits of server side rendering, as well as a backend REST API with ease. The backend is connected to a PostgreSQL database running on Heroku. The app is hosted on Heroku and is set up to automatically deploy to it whenever a commit is pushed to the main branch.
+The app was built using NextJS and TypeScript for both the frontend and backend. This provided me with a framework for building a frontend using ReactJS while still getting the benefits of server side rendering, as well as a backend REST API with ease. The backend is connected to a PostgreSQL database running on Heroku. The app is hosted on Heroku and is set up to automatically deploy to it whenever a commit is pushed to the main branch. The frontend is styled using Sass, which provides a much nicer experience compared to traditional CSS.
 
 <br />
 
