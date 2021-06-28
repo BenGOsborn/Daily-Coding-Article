@@ -12,4 +12,4 @@ When a user subscribes, their email is stored in the database and an email notif
 
 <br />
 
-When the user unsubscribes from the mailing list, the server simply removes them from the database and they will no longer receive emails.
+When the user unsubscribes from the mailing list, the server simply removes them from the database and they will no longer receive emails. In addition to this, a notification is sent out to the admin to let him know.
