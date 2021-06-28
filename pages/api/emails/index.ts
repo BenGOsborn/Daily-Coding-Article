@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import DB from "../../../utils/db";
 import emailSchema from "../../../joiSchema/emailSchema";
+import { sendNotification } from "../../../utils/email";
 
 export interface SubscribeParams {
     email: string;
@@ -48,6 +49,9 @@ export default async function subscribe(
         // Close the connection
         db.close();
 
+        // Notify the admin
+        sendNotification("subscribed");
+
         // Return success
         return res.status(200).end("Email subscribed");
     } else if (req.method === "DELETE") {
@@ -72,6 +76,9 @@ export default async function subscribe(
 
         // Close the connection
         db.close();
+
+        // Notify the admin
+        sendNotification("unsubscribed");
 
         // Return success
         return res.status(200).end("Successfully unsubscribed email");
