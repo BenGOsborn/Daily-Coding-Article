@@ -1,6 +1,6 @@
 # [Daily Coding Article](https://daily-coding-article.herokuapp.com/)
 
-## An email subscription service where users are sent a new coding article everyday so they can learn something new everyday.
+## An email subscription service that sends you a new coding article every day to teach you something new.
 
 ### How it was built
 
@@ -8,7 +8,7 @@ The app was built using NextJS and TypeScript for both the frontend and backend.
 
 <br />
 
-When a user subscribes to the service, their email is stored in the database and an email notification is sent to the admin. To send out the emails, which is done using Nodemailer, the admin simply logs in to the dashboard, specifies the email and sends it. He can send a test email to himself only to check if the email is error free before sending it out to everyone in the mailing list. The parameters of the email specified in the admin dashboard are then sent to the server and are parsed into the email template which is built and rendered using ejs, which is then emailed out to everyone in the database.
+When a user subscribes, their email is stored in the database and an email notification is sent to the admin. To send out the emails, which is done using Nodemailer, the admin simply logs in to the dashboard and specifies the details of the email and sends it. He can send a test email to himself only to check if the email is error free before sending it out to everyone in the mailing list. When he sends the email out to the list, the parameters of the email specified in the admin dashboard are sent to the server and are parsed into the email template which is built and rendered using ejs. This is then emailed out to everyone subscribed.
 
 <br />
 
