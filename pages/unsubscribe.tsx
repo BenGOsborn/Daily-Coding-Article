@@ -5,6 +5,7 @@ import { UnsubscribeParams } from "./api/emails";
 import { NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
 import styles from "../styles/Unsubscribe.module.scss";
+import Head from "next/head";
 
 const Unsubscribe: NextPage<{}> = () => {
     const [unsubscribedStatus, setUnsubscribedStatus] =
@@ -65,38 +66,49 @@ const Unsubscribe: NextPage<{}> = () => {
     };
 
     return (
-        <div className={styles.container}>
-            <h1>{"We're sad to see you go!"}</h1>
-            <p>
-                {
-                    "If there's anything we can do to change your mind, let us know."
-                }
-            </p>
-            <form onSubmit={unsubscribe} id="unsubscribe">
-                <label htmlFor="email">Your Email</label>
-                <input
-                    type="email"
-                    required={true}
-                    value={email}
-                    placeholder="your@email.com"
-                    id="email"
-                    onChange={(e) => setEmail(e.target.value)}
+        <>
+            <Head>
+                <title>Unsubscribe - Daily Coding Article</title>
+                <meta
+                    name="description"
+                    content="Unsubscribe from the Daily Coding Article mailing list."
                 />
-            </form>
-            <input
-                type="submit"
-                value="Unsubscribe"
-                className="button"
-                form="unsubscribe"
-            />
-            {unsubscribedStatus ? (
-                unsubscribedStatus.success ? (
-                    <p className="textSuccess">{unsubscribedStatus.message}</p>
-                ) : (
-                    <p className="textFail">{unsubscribedStatus.message}</p>
-                )
-            ) : null}
-        </div>
+            </Head>
+            <div className={styles.container}>
+                <h1>{"We're sad to see you go!"}</h1>
+                <p>
+                    {
+                        "If there's anything we can do to change your mind, let us know."
+                    }
+                </p>
+                <form onSubmit={unsubscribe} id="unsubscribe">
+                    <label htmlFor="email">Your Email</label>
+                    <input
+                        type="email"
+                        required={true}
+                        value={email}
+                        placeholder="your@email.com"
+                        id="email"
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                </form>
+                <input
+                    type="submit"
+                    value="Unsubscribe"
+                    className="button"
+                    form="unsubscribe"
+                />
+                {unsubscribedStatus ? (
+                    unsubscribedStatus.success ? (
+                        <p className="textSuccess">
+                            {unsubscribedStatus.message}
+                        </p>
+                    ) : (
+                        <p className="textFail">{unsubscribedStatus.message}</p>
+                    )
+                ) : null}
+            </div>
+        </>
     );
 };
 

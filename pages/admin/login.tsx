@@ -6,6 +6,7 @@ import { StatusMessage } from "..";
 import { TokenParams, verifyToken } from "../../utils/auth";
 import { AuthParams } from "../api/auth";
 import styles from "../../styles/Login.module.scss";
+import Head from "next/head";
 
 export interface LoginProps {
     loggedIn: boolean;
@@ -50,40 +51,50 @@ const Login: NextPage<LoginProps> = ({ loggedIn }) => {
     // Display the page if not logged in otherwise display nothing whilst redirected
     if (!loggedIn) {
         return (
-            <div className={styles.login}>
-                <h1>Login</h1>
-                <form onSubmit={login} id="loginForm">
-                    <label htmlFor="username">Username</label>
-                    <input
-                        type="text"
-                        required={true}
-                        placeholder="Username"
-                        id="username"
-                        onChange={(e) => setUsername(e.target.value)}
+            <>
+                <Head>
+                    <title>Admin Login - Daily Coding Article</title>
+                    <meta
+                        name="description"
+                        content="The admin login page for Daily Coding Article."
                     />
-                    <label htmlFor="password">Password</label>
+                    <meta name="robots" content="noindex, nofollow" />
+                </Head>
+                <div className={styles.login}>
+                    <h1>Login</h1>
+                    <form onSubmit={login} id="loginForm">
+                        <label htmlFor="username">Username</label>
+                        <input
+                            type="text"
+                            required={true}
+                            placeholder="Username"
+                            id="username"
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            required={true}
+                            placeholder="Password"
+                            id="password"
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </form>
                     <input
-                        type="password"
-                        required={true}
-                        placeholder="Password"
-                        id="password"
-                        onChange={(e) => setPassword(e.target.value)}
+                        type="submit"
+                        form="loginForm"
+                        value="Login"
+                        className="button"
                     />
-                </form>
-                <input
-                    type="submit"
-                    form="loginForm"
-                    value="Login"
-                    className="button"
-                />
-                {loginStatus ? (
-                    loginStatus.success ? (
-                        <p className="textSuccess">{loginStatus.message}</p>
-                    ) : (
-                        <p className="textFail">{loginStatus.message}</p>
-                    )
-                ) : null}
-            </div>
+                    {loginStatus ? (
+                        loginStatus.success ? (
+                            <p className="textSuccess">{loginStatus.message}</p>
+                        ) : (
+                            <p className="textFail">{loginStatus.message}</p>
+                        )
+                    ) : null}
+                </div>
+            </>
         );
     } else {
         return null;
