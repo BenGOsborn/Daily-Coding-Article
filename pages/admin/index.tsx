@@ -48,7 +48,7 @@ const Dashboard: NextPage<LoginProps> = ({ loggedIn }) => {
             .catch((error: AxiosError) => {
                 // Set the status
                 const payload: StatusMessage = {
-                    success: true,
+                    success: false,
                     message: error.response?.data,
                 };
                 setSentStatus(payload);
